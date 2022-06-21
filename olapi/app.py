@@ -3,11 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from Crm import crm_tickets
 from Halo import halo_tickets
 from datetime import datetime
-
-# from config import Config
+import config
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
+
 # app.config.from_object(Config)
 ht = halo_tickets()
 ct = crm_tickets()
@@ -32,7 +32,7 @@ def test_get_ticket(ticket_id):
 @app.route('/set-halo-ticket', methods=['GET'])
 def test_post_ticket():
     return ht.postTicket(data={'summary': 'sum' + str(datetime),
-                               'details': 'detals'})
+                               'details': 'details'})
 
 
 @app.route('/exportTickets', methods=['GET'])
