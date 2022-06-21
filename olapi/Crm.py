@@ -2,9 +2,6 @@ from app import db
 from config import Config
 
 
-engine = create_engine(DATABASE)
-
-
 class crm_tickets:
 
     def __init__(self):

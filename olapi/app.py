@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from Crm import crm_tickets
 from Halo import halo_tickets
 from datetime import datetime
 import config
@@ -8,6 +7,7 @@ import config
 app = Flask(__name__)
 db = SQLAlchemy(app)
 
+from Crm import crm_tickets
 # app.config.from_object(Config)
 ht = halo_tickets()
 ct = crm_tickets()
