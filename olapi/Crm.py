@@ -1,22 +1,17 @@
-from app import db
+class CrmTickets:
 
-
-#engine = create_engine(DATABASE)
-
-
-class crm_tickets:
-
-    def __init__(self):
+    def __init__(self, db):
         self.endpoint = ""
+        self.db = db
 
     def get_tickets(self):
-        pass
+        return 'ttt'
 
     def get_ticket(self, id):
-        pass
+        return 'ttt'
 
     def post_ticket(self, data):
-        pass
+        return 'ttt'
 
     def delete_ticket(self, id):
-        pass
+        return 'ttt'
