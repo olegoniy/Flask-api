@@ -2,10 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from Halo import halo_tickets
 from datetime import datetime
-import config
+from config import Config
+
 
 app = Flask(__name__)
+app.config.from_object(Config)
 db = SQLAlchemy(app)
+
 
 from Crm import crm_tickets
 
