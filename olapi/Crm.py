@@ -1,5 +1,4 @@
 from app import db
-from config import Config
 
 
 class crm_tickets:
