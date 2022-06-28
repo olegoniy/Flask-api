@@ -2,10 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 class Tickets(db.Model):
+    __tablename__ = "tickets"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True)
     info = db.Column(db.String(800), nullable=False)
-    __tablename__ = "tickets"
 
     user_id = db.Column (db.Integer, db.ForeignKey('Customers.id'))
 

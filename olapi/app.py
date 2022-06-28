@@ -18,7 +18,7 @@ ct = CrmTickets(db)
 
 
 @app.route('/Tickets', methods=['GET'])
-def getListTickets():
+def get_list_tickets():
     tickets_list = ht.getTickets()
     return tickets_list
 
