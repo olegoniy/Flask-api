@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from Halo import halo_tickets
+from Halo import HaloTickets
+from Crm import CrmTickets
 from datetime import datetime
 from config import Config
 
@@ -10,11 +11,10 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 
 
-from Crm import crm_tickets
 
 # app.config.from_object(Config)
-ht = halo_tickets()
-ct = crm_tickets()
+ht = HaloTickets()
+ct = CrmTickets(db)
 
 
 @app.route('/Tickets', methods=['GET'])
@@ -41,9 +41,9 @@ def test_post_ticket():
 
 @app.route('/exportTickets', methods=['GET'])
 def export_tickets():
-    internal_tickets_list = crm.getTickets()
+    internal_tickets_list = ct.getTickets()
     # Данная функция находится в классе в файле Crm
-    return halo.updateTickets(internal_tickets_list)
+    return ht.updateTickets(internal_tickets_list)
 
 
 if __name__ == '__main__':

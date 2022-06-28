@@ -4,7 +4,7 @@ import json
 import requests
 
 
-class halo_tickets:
+class HaloTickets:
 
     def __init__(self):
         self.bearer = ''
@@ -69,7 +69,7 @@ class halo_tickets:
         pass
 
 
-class halo_customer:
+class HaloCustomer:
 
     def __init__(self):
         self.endpoint = "dgyueiw"
