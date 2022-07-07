@@ -7,10 +7,10 @@ class Tickets(db.Model):
     title = db.Column(db.String(50), unique=True)
     info = db.Column(db.String(800), nullable=False)
 
-    user_id = db.Column (db.Integer, db.ForeignKey('customers.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
     def __repr__(self):
-        return '<Tickets {}>'.format(self.id)
+        return "<Tickets {}>".format(self.id)
 
 
 class Customers(db.Model):
@@ -21,4 +21,4 @@ class Customers(db.Model):
     psw = db.Column(db.String(80))
 
     def __repr__(self):
-        return '<Customer {}>'.format(self.id)
+        return "<Customer {}>".format(self.id)

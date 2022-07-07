@@ -1,4 +1,5 @@
 import json
+import jsonify
 
 
 class CrmTickets:
@@ -9,10 +10,16 @@ class CrmTickets:
         self.Tickets = Tickets
 
     def get_tickets(self):
-        return json.dumps(self.db.session.query(self.Tickets).all().__str__())
+        res = []
+        for item in self.db.session.query(self.Tickets).all():
+            res.append((item.id, item.title, item.user_id))
+        return json.dumps(res)
 
     def get_ticket(self, id):
-        return json.dumps(self.db.session.query(self.Tickets).filter(self.Tickets.id == id).first())
+        try:
+            return json.dumps(self.db.session.query(self.Tickets).filter(self.Tickets.id == id).first().all())
+        except:
+            return "Wrong ticket ID"
 
     def create_ticket(self, data):
         ticket = self.Tickets()

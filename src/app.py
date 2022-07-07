@@ -5,7 +5,6 @@ from datetime import datetime
 from config import Config
 import json
 
-
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
@@ -17,13 +16,20 @@ class Tickets(db.Model):
     title = db.Column(db.String(50), unique=True)
     info = db.Column(db.String(800), nullable=False)
 
-    user_id = db.Column (db.Integer, db.ForeignKey('customers.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+
+    def all(self):
+        return {
+            "id":    self.id,
+            "title": self.title,
+            "info":  self.info
+        }
 
     def __repr__(self):
-        return {'id':self.id, 'title':self.title, 'info':self.info, 'user_id':self.user_id}
+        return {'id': self.id, 'title': self.title, 'info': self.info, 'user_id': self.user_id}
 
     def __str__(self):
-        return 'Ticket(id='+self.id+', title='+self.title + ', info='+self.info+ ', user_id='+self.user_id+')'
+        return 'Ticket(id=' + str(self.id) + ', title=' + self.title + ', info=' + self.info + ', user_id=' + str(self.user_id) + ')'
 
 
 class Customers(db.Model):
@@ -56,7 +62,7 @@ def halo_get_ticket(ticket_id):
 @app.route('/set-halo-ticket', methods=['GET'])
 def halo_post_ticket():
     return ht.post_ticket(data={'summary': 'sum' + str(datetime),
-                               'details': 'details'})
+                                'details': 'details'})
 
 
 @app.route('/get-crm-tickets', methods=['GET'])
@@ -77,7 +83,7 @@ def crm_create_ticket():
 @app.route('/set-crm-ticket', methods=['GET'])
 def crm_post_ticket():
     return ct.post_ticket(data={'id': 1, 'title': 'sum' + str(datetime),
-                               'info': 'details'})
+                                'info': 'details'})
 
 
 @app.route('/exportTickets', methods=['GET'])
