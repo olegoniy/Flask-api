@@ -1,5 +1,3 @@
-# import config
-from flask import jsonify
 import json
 import requests
 
@@ -27,7 +25,7 @@ class HaloTickets:
     def check_auth(self):
         self.auth()
 
-    def getTickets(self):
+    def get_tickets(self):
         self.check_auth()
         payload = {}
         headers = {
@@ -40,7 +38,7 @@ class HaloTickets:
         # print(response.text)
         return response.status_code
 
-    def getTicket(self, ticket_id):
+    def get_ticket(self, ticket_id):
         self.check_auth()
         payload = {}
         headers = {
@@ -53,7 +51,7 @@ class HaloTickets:
         print(response.text)
         return response.status_code
 
-    def postTicket(self, data):
+    def post_ticket(self, data):
         self.check_auth()
         payload = json.dumps([
             data])
@@ -65,7 +63,7 @@ class HaloTickets:
         print(response.text)
         return str(json.loads(response.content)['id'])
 
-    def deleteTicket(self, id):
+    def delete_ticket(self, id):
         pass
 
 
