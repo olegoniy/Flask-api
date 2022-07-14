@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask, session, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from classes.halo import HaloTickets
-from datetime import datetime
+import datetime
 from config import Config
 import json
 
@@ -20,16 +20,17 @@ class Tickets(db.Model):
 
     def all(self):
         return {
-            "id":    self.id,
+            "id": self.id,
             "title": self.title,
-            "info":  self.info
+            "info": self.info
         }
 
     def __repr__(self):
         return {'id': self.id, 'title': self.title, 'info': self.info, 'user_id': self.user_id}
 
     def __str__(self):
-        return 'Ticket(id=' + str(self.id) + ', title=' + self.title + ', info=' + self.info + ', user_id=' + str(self.user_id) + ')'
+        return 'Ticket(id=' + str(self.id) + ', title=' + self.title + ', info=' + self.info + ', user_id=' + str(
+            self.user_id) + ')'
 
 
 class Customers(db.Model):
@@ -61,8 +62,13 @@ def halo_get_ticket(ticket_id):
 
 @app.route('/set-halo-ticket', methods=['GET'])
 def halo_post_ticket():
-    return ht.post_ticket(data={'summary': 'sum' + str(datetime),
+    return ht.post_ticket(data={'summary': 'sum' + str(datetime.date.today()),
                                 'details': 'details'})
+
+
+@app.route('/delete-halo-ticket/<ticket_id>', methods=['GET'])
+def halo_delete_ticket(ticket_id):
+    return ht.delete_ticket(ticket_id)
 
 
 @app.route('/get-crm-tickets', methods=['GET'])
@@ -72,18 +78,39 @@ def crm_get_tickets():
 
 @app.route('/get-crm-ticket/<ticket_id>', methods=['GET'])
 def crm_get_ticket(ticket_id):
-    return ct.get_ticket(ticket_id)
+    return ct.get_ticket(id=ticket_id)
 
 
-@app.route('/create-crm-ticket', methods=['GET'])
+@app.route('/set-crm-ticket', methods=['POST'])
 def crm_create_ticket():
-    return ct.create_ticket(data={'user_id': 1, 'title': 'sum' + str(datetime), 'info': 'details'})
+    return ct.create_ticket(data=ct.get_data())
 
 
-@app.route('/set-crm-ticket', methods=['GET'])
-def crm_post_ticket():
-    return ct.post_ticket(data={'id': 1, 'title': 'sum' + str(datetime),
-                                'info': 'details'})
+@app.route('/put-crm-ticket', methods=['PUT'])
+def crm_edit_ticket():
+    data = request.get_json()
+    try:
+        data["id"]
+    except:
+        raise Exception("\"id\" is an obligatory attribute")
+    try:
+        data["title"]
+    except:
+        raise Exception("\"title\" is an obligatory attribute")
+    try:
+        data["user_id"]
+    except:
+        raise Exception("\"user_id\" is an obligatory attribute")
+    try:
+        data["info"]
+    except:
+        raise Exception("\"info\" is an obligatory attribute")
+    return ct.put_ticket(data)
+
+
+@app.route('/delete-crm-ticket/<ticket_id>', methods=['GET'])
+def crm_delete_ticket(ticket_id):
+    return ct.delete_ticket(id=ticket_id)
 
 
 @app.route('/exportTickets', methods=['GET'])
