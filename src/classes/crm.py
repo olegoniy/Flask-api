@@ -1,4 +1,5 @@
 from flask import render_template
+from abc import abstractclassmethod
 import json
 import jsonify
 
@@ -10,9 +11,9 @@ class CrmTickets:
         self.db = db
         self.Tickets = Tickets
 
-    def get_tickets(self):
+    def get_tickets(self, page: int, limit: int):
         res = []
-        for item in self.db.session.query(self.Tickets).all():
+        for item in self.db.session.query(self.Tickets).offset(page * limit).limit(limit).all():
             res.append((item.id, item.title, item.user_id))
         return json.dumps(res)
 
@@ -39,19 +40,26 @@ class CrmTickets:
         self.db.session.commit()
         return f"Ticket {ticket.id} was created"
 
+    def filtration(self, data):
+        pass
+
     def put_ticket(self, data):
         ticket = self.db.session.query(self.Tickets).filter(self.Tickets.id == data["id"]).first()
-        ticket.title = data["title"]
-        ticket.info = data["info"]
-        ticket.user_id = data["user_id"]
+        try:
+            ticket.title = data["title"]
+        except:
+            pass
+        try:
+            ticket.info = data["info"]
+        except:
+            pass
+        try:
+            ticket.user_id = data["user_id"]
+        except:
+            pass
         self.db.session.add(ticket)
         self.db.session.commit()
-        return str(ticket)
-
-
-    def pagination(self, page_num):
-        page =  self.db.session.query(self.Tickets).paginate(per_page=5, page=page_num, error_out=True)
-        return render_template(threads=page)
+        return "Changes were applied \n" + str(ticket)
 
     def delete_ticket(self, id):
         if self.db.session.query(self.Tickets).filter(self.Tickets.id == id).all():

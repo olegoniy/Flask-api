@@ -29,7 +29,7 @@ class Tickets(db.Model):
         return {'id': self.id, 'title': self.title, 'info': self.info, 'user_id': self.user_id}
 
     def __str__(self):
-        return 'Ticket(id=' + str(self.id) + ', title=' + self.title + ', info=' + self.info + ', user_id=' + str(
+        return 'Ticket(id=' + str(self.id) + ', title= "' + self.title + '", info=' + self.info + ', user_id=' + str(
             self.user_id) + ')'
 
 
@@ -73,7 +73,9 @@ def halo_delete_ticket(ticket_id):
 
 @app.route('/get-crm-tickets', methods=['GET'])
 def crm_get_tickets():
-    return ct.get_tickets()
+    page = request.args.get('page', default=1, type=int) - 1
+    limit = request.args.get('limit', default=10, type=int)
+    return ct.get_tickets(page, limit)
 
 
 @app.route('/get-crm-ticket/<ticket_id>', methods=['GET'])
@@ -83,28 +85,12 @@ def crm_get_ticket(ticket_id):
 
 @app.route('/set-crm-ticket', methods=['POST'])
 def crm_create_ticket():
-    return ct.create_ticket(data=ct.get_data())
+    return ct.post_ticket(data=ct.get_data())
 
 
 @app.route('/put-crm-ticket', methods=['PUT'])
 def crm_edit_ticket():
     data = request.get_json()
-    try:
-        data["id"]
-    except:
-        raise Exception("\"id\" is an obligatory attribute")
-    try:
-        data["title"]
-    except:
-        raise Exception("\"title\" is an obligatory attribute")
-    try:
-        data["user_id"]
-    except:
-        raise Exception("\"user_id\" is an obligatory attribute")
-    try:
-        data["info"]
-    except:
-        raise Exception("\"info\" is an obligatory attribute")
     return ct.put_ticket(data)
 
 

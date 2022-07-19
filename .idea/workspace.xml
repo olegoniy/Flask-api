@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fb876b1-25b4-4e7f-b930-6ef8c7845421" name="Changes" comment="3">
+    <list default="true" id="4fb876b1-25b4-4e7f-b930-6ef8c7845421" name="Changes" comment="methods for crm-tickets have been finished">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/crm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/crm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/halo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/halo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,6 +145,14 @@
       <workItem from="1655978944583" duration="186000" />
       <workItem from="1655979388027" duration="3562000" />
     </task>
+    <task id="LOCAL-00001" summary="methods for crm-tickets have been finished">
+      <created>1657799080601</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1657799080601</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -205,6 +212,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="methods for crm-tickets have been finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="methods for crm-tickets have been finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
