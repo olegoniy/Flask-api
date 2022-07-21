@@ -26,7 +26,12 @@ class Tickets(db.Model):
         }
 
     def __repr__(self):
-        return {'id': self.id, 'title': self.title, 'info': self.info, 'user_id': self.user_id}
+        return {
+                'id': self.id,
+                'title': self.title,
+                'info': self.info,
+                'user_id': self.user_id
+                }
 
     def __str__(self):
         return 'Ticket(id=' + str(self.id) + ', title= "' + self.title + '", info=' + self.info + ', user_id=' + str(
@@ -86,6 +91,12 @@ def crm_get_ticket(ticket_id):
 @app.route('/set-crm-ticket', methods=['POST'])
 def crm_create_ticket():
     return ct.post_ticket(data=ct.get_data())
+
+
+@app.route('/filter-crm-tickets', methods=['PUT'])
+def filter_crm_tickets():
+    data = request.get_json()
+    return ct.filtration(data)
 
 
 @app.route('/put-crm-ticket', methods=['PUT'])

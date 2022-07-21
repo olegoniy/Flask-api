@@ -1,7 +1,7 @@
 from flask import render_template
 from abc import abstractclassmethod
 import json
-import jsonify
+
 
 
 class CrmTickets:
@@ -41,7 +41,41 @@ class CrmTickets:
         return f"Ticket {ticket.id} was created"
 
     def filtration(self, data):
-        pass
+        try:
+            page = data['page']
+        except:
+            page = 0
+        try:
+            limit = data['limit']
+        except:
+            limit = 5
+
+        def filter_check(data, ticket):
+            filter = True
+            try:
+                filter = filter and self.Tickets.info.like("%" + data['info'] + "%")
+            except:
+                pass
+
+            try:
+                filter = filter and self.Tickets.info.like("%" + data['title'] + "%")
+            except:
+                pass
+
+            try:
+                filter = filter and self.Tickets.info.like("%" + data['user_id'] + "%")
+            except:
+                pass
+
+            return filter
+
+        res = []
+        items = self.db.session.query(self.Tickets).filter(filter_check(data, self.Tickets)).offset(page * limit).limit(limit).all()
+        for item in items:
+            res.append((item.id, item.title, item.info, item.user_id))
+        if res:
+            return json.dumps(res)
+        return "Wrong page or such ticket does not exist"
 
     def put_ticket(self, data):
         ticket = self.db.session.query(self.Tickets).filter(self.Tickets.id == data["id"]).first()
