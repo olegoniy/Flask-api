@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fb876b1-25b4-4e7f-b930-6ef8c7845421" name="Changes" comment="3">
+      <change beforePath="$PROJECT_DIR$/.idea/Flask-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Flask-api.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/crm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/crm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/halo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/halo.py" afterDir="false" />
     </list>
@@ -72,7 +73,9 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/OlegKirieiev/Job/rest/flask_rest_api/src/app.py&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/music/codes/Flask-api&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
@@ -122,8 +125,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.config" />
       <item itemvalue="Python.app" />
+      <item itemvalue="Python.config" />
     </list>
     <recent_temporary>
       <list>
@@ -211,7 +214,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/classes/halo.py</url>
-          <line>51</line>
+          <line>48</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

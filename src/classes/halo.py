@@ -6,12 +6,10 @@ class HaloTickets:
 
     def __init__(self):
         self.bearer = ''
-        # self.resource_uri = 'https://testflask.halopsa.com/api'
-        self.resource_uri = 'https://tatooleh2.halopsa.com/api'
-        # self.authorisation_uri = 'https://uk-trial.halopsa.com/token?tenant=testflask'
-        self.authorisation_uri = 'https://uk-trial.halopsa.com/token?tenant=tatooleh2'
-        self.client_id = "91c3dfe0-99a9-4558-a15f-915a3fee5af3"
-        self.client_secret = "04117c7b-f8a0-4245-a914-8fb30d6e9dbb-dce46485-f36d-4dbe-b84f-b3386076e92b"
+        self.resource_uri = 'https://olehtest.halopsa.com/api'
+        self.authorisation_uri = 'https://uk-trial.halopsa.com/token?tenant=olehtest'
+        self.client_id = "01401278-cd57-4418-b485-6c5998bdb663"
+        self.client_secret = "31aab08b-e566-4c85-bdd0-786795aa3e48-26abd3be-9b9f-44be-871a-52128e154528"
 
     def auth(self):
         headers = {
@@ -48,7 +46,6 @@ class HaloTickets:
         }
 
         response = requests.request("GET", self.resource_uri + '/tickets/' + ticket_id, headers=headers, data=payload)
-        print(response.text)
         return response.status_code
 
     def post_ticket(self, data):
@@ -63,15 +60,7 @@ class HaloTickets:
         return str(json.loads(response.content)['id'])
 
     def delete_ticket(self, id):
-        self.check_auth()
-        headers = {
-            'Authorization': 'Bearer ' + self.bearer,
-            'Content-Type': 'application/json'
-        }
-        response = requests.request("DELETE", self.resource_uri + '/tickets', headers=headers)
-        print(response.text)
-        return f"Ticket {id} was deleted"
-# не працює
+        pass
 
 
 class HaloCustomer:

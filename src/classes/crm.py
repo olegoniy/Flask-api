@@ -1,6 +1,5 @@
 from flask import render_template
 import json
-import jsonify
 
 
 class CrmTickets:
