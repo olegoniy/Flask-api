@@ -1,9 +1,9 @@
-from flask import Flask, session, redirect, request
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from classes.halo import HaloTickets
 import datetime
 from config import Config
-import json
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -50,11 +50,47 @@ class Customers(db.Model):
 
 from classes.crm import CrmTickets
 
-# app.config.from_object(Config)
+
 ht = HaloTickets()
 ct = CrmTickets(db, Tickets)
 
 
+# routes to CRM functions (ready and work)
+@app.route('/get-crm-tickets', methods=['GET'])
+def crm_get_tickets():
+    page = request.args.get('page', default=1, type=int) - 1
+    limit = request.args.get('limit', default=10, type=int)
+    return ct.get_tickets(page, limit)
+
+
+@app.route('/get-crm-ticket/<ticket_id>', methods=['GET'])
+def crm_get_ticket(ticket_id):
+    return ct.get_ticket(id=ticket_id)
+
+
+@app.route('/set-crm-ticket', methods=['POST'])
+def crm_create_ticket():
+    return ct.post_ticket()
+
+
+@app.route('/filter-crm-tickets', methods=['PUT'])
+def filter_crm_tickets():
+    data = request.get_json()
+    return ct.filtration(data)
+
+
+@app.route('/put-crm-ticket', methods=['PUT'])
+def crm_edit_ticket():
+    data = request.get_json()
+    return ct.put_ticket(data)
+
+
+@app.route('/delete-crm-ticket/<ticket_id>', methods=['GET'])
+def crm_delete_ticket(ticket_id):
+    return ct.delete_ticket(id=ticket_id)
+
+
+# routes for HaloPSA functions (don't work (problem with access))
 @app.route('/get-halo-tickets', methods=['GET'])
 def halo_get_tickets():
     return ht.get_tickets()
@@ -76,44 +112,10 @@ def halo_delete_ticket(ticket_id):
     return ht.delete_ticket(ticket_id)
 
 
-@app.route('/get-crm-tickets', methods=['GET'])
-def crm_get_tickets():
-    page = request.args.get('page', default=1, type=int) - 1
-    limit = request.args.get('limit', default=10, type=int)
-    return ct.get_tickets(page, limit)
-
-
-@app.route('/get-crm-ticket/<ticket_id>', methods=['GET'])
-def crm_get_ticket(ticket_id):
-    return ct.get_ticket(id=ticket_id)
-
-
-@app.route('/set-crm-ticket', methods=['POST'])
-def crm_create_ticket():
-    return ct.post_ticket(data=ct.get_data())
-
-
-@app.route('/filter-crm-tickets', methods=['PUT'])
-def filter_crm_tickets():
-    data = request.get_json()
-    return ct.filtration(data)
-
-
-@app.route('/put-crm-ticket', methods=['PUT'])
-def crm_edit_ticket():
-    data = request.get_json()
-    return ct.put_ticket(data)
-
-
-@app.route('/delete-crm-ticket/<ticket_id>', methods=['GET'])
-def crm_delete_ticket(ticket_id):
-    return ct.delete_ticket(id=ticket_id)
-
-
+# route for communication of CRM and HaloPSA
 @app.route('/exportTickets', methods=['GET'])
 def export_tickets():
     internal_tickets_list = ct.getTickets()
-    # Данная функция находится в классе в файле Crm
     return ht.update_tickets(internal_tickets_list)
 
 

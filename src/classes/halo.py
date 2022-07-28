@@ -1,16 +1,18 @@
 import json
 import requests
+from src.config import Config
 
-
+# Class for tickets in HaloPSA (not finished because of support)
 class HaloTickets:
 
     def __init__(self):
         self.bearer = ''
-        self.resource_uri = 'https://olehtest.halopsa.com/api'
-        self.authorisation_uri = 'https://uk-trial.halopsa.com/token?tenant=olehtest'
-        self.client_id = "01401278-cd57-4418-b485-6c5998bdb663"
-        self.client_secret = "31aab08b-e566-4c85-bdd0-786795aa3e48-26abd3be-9b9f-44be-871a-52128e154528"
+        self.resource_uri = Config.RESOURCE_URI
+        self.authorisation_uri = Config.AUTHORISATION_URI
+        self.client_id = Config.CLIENT_ID
+        self.client_secret = Config.CLIENT_SECRET
 
+    # Authentication in HaloPSA service to gt access
     def auth(self):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -21,24 +23,20 @@ class HaloTickets:
         print(str(res))
         self.bearer = json.loads(res.text)['access_token']
 
-    def check_auth(self):
-        self.auth()
-
+    # Returns list of tickets (doesn't work(problems with access))
     def get_tickets(self):
-        self.check_auth()
+        self.auth()
         payload = {}
         headers = {
             'Authorization': 'Bearer ' + self.bearer,
             'Accept': 'application/json'
         }
-
         response = requests.request("GET", self.resource_uri + '/tickets', headers=headers, data=payload)
-
-        # print(response.text)
         return response.status_code
 
+    # Returns info about ticket (doesn't work(problems with access))
     def get_ticket(self, ticket_id):
-        self.check_auth()
+        self.auth()
         payload = {}
         headers = {
             'Authorization': 'Bearer ' + self.bearer,
@@ -48,8 +46,9 @@ class HaloTickets:
         response = requests.request("GET", self.resource_uri + '/tickets/' + ticket_id, headers=headers, data=payload)
         return response.status_code
 
+    # Creating of ticket (works for some reason)
     def post_ticket(self, data):
-        self.check_auth()
+        self.auth()
         payload = json.dumps([data])
         headers = {
             'Authorization': 'Bearer ' + self.bearer,
@@ -66,4 +65,4 @@ class HaloTickets:
 class HaloCustomer:
 
     def __init__(self):
-        self.endpoint = "dgyueiw"
+        pass

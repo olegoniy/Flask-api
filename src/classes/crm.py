@@ -1,9 +1,10 @@
 from flask import render_template
 from abc import abstractclassmethod
 import json
+from src.config import Config
 
 
-
+# Class for tickets in CRM (ready and works)
 class CrmTickets:
 
     def __init__(self, db, Tickets):
@@ -11,35 +12,32 @@ class CrmTickets:
         self.db = db
         self.Tickets = Tickets
 
+    # Returns list of all tickets in CRM (with pagination)
     def get_tickets(self, page: int, limit: int):
         res = []
         for item in self.db.session.query(self.Tickets).offset(page * limit).limit(limit).all():
             res.append((item.id, item.title, item.user_id))
         return json.dumps(res)
 
+    # Returns info about ticket
     def get_ticket(self, id):
         try:
             return json.dumps(self.db.session.query(self.Tickets).filter(self.Tickets.id == id).first().all())
         except:
             return "Wrong ticket ID"
 
-    def get_data(self):
-        data = {}
-        data["title"] = ""
-        data["info"] = ""
-        data["user_id"] = 123
-        return data
-
+    # Creating of ticket with standard fields
     def post_ticket(self, data):
         ticket = self.Tickets()
         ticket.id = self.db.session.query(self.Tickets).all()[-1].id + 1
-        ticket.title = ""
-        ticket.info = ""
-        ticket.user_id = 123
+        ticket.title = Config.STANDARD_TITLE
+        ticket.info = Config.STANDARD_INFO
+        ticket.user_id = Config.STANDARD_USER_ID
         self.db.session.add(ticket)
         self.db.session.commit()
         return f"Ticket {ticket.id} was created"
 
+    # Filtration of tickets by one or few keys (with pagination)
     def filtration(self, data):
         try:
             page = data['page']
@@ -70,13 +68,15 @@ class CrmTickets:
             return filter
 
         res = []
-        items = self.db.session.query(self.Tickets).filter(filter_check(data, self.Tickets)).offset(page * limit).limit(limit).all()
+        items = self.db.session.query(self.Tickets).filter(filter_check(data, self.Tickets)).offset(page * limit).limit(
+            limit).all()
         for item in items:
             res.append((item.id, item.title, item.info, item.user_id))
         if res:
             return json.dumps(res)
         return "Wrong page or such ticket does not exist"
 
+    # Editing of tickets fields
     def put_ticket(self, data):
         ticket = self.db.session.query(self.Tickets).filter(self.Tickets.id == data["id"]).first()
         try:
