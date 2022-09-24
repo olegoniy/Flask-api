@@ -9,6 +9,7 @@ class HaloTickets:
         self.bearer = ''
         self.resource_uri = Config.RESOURCE_URI
         self.authorisation_uri = Config.AUTHORISATION_URI
+        self.authorisation_type = Config.AUTHORISATION_TYPE
         self.client_id = Config.CLIENT_ID
         self.client_secret = Config.CLIENT_SECRET
 
@@ -18,9 +19,14 @@ class HaloTickets:
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json'
         }
-        payload = 'grant_type=client_credentials&client_id=' + self.client_id + '&client_secret=' + self.client_secret
+        payload = {
+            'grant_type': 'client_credentials',
+            'scope': 'all',
+            'token_type': 'Bearer',
+            'client_id': self.client_id,
+            'client_secret': self.client_secret
+        }
         res = requests.request("POST", self.authorisation_uri, headers=headers, data=payload)
-        print(str(res))
         self.bearer = json.loads(res.text)['access_token']
 
     # Returns list of tickets (doesn't work(problems with access))
@@ -32,7 +38,7 @@ class HaloTickets:
             'Accept': 'application/json'
         }
         response = requests.request("GET", self.resource_uri + '/tickets', headers=headers, data=payload)
-        return response.status_code
+        return json.loads(response.text)
 
     # Returns info about ticket (doesn't work(problems with access))
     def get_ticket(self, ticket_id):

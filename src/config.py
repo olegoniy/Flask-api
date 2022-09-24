@@ -8,10 +8,11 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # SETTINGS OF HALOPSA SERVICE
-    RESOURCE_URI = 'https://olehtest.halopsa.com/api'
-    AUTHORISATION_URI = 'https://eu-trial.halopsa.com/token?tenant=olehtest'
-    CLIENT_ID = "01401278-cd57-4418-b485-6c5998bdb663"
-    CLIENT_SECRET = "31aab08b-e566-4c85-bdd0-786795aa3e48-26abd3be-9b9f-44be-871a-52128e154528"
+    RESOURCE_URI = 'https://restapi.halopsa.com/api'
+    AUTHORISATION_URI = 'https://eu-trial.halopsa.com/token?tenant=restapi'
+    AUTHORISATION_TYPE = 'Basic NDg0NTk2MDAtNWI5Yi00ZGJiLTkwNmItZGY0NTA0ZjhhY2I1OjhhNTM3OWUwLTAyNTYtNDQ1ZC1hMjAxLTY5YjVkZGUyODQ1ZS1hOGI1YjFiZS04ODVhLTQ3NjYtOGNmNC1iZDg2MDBlZGYzMTE='
+    CLIENT_ID = "48459600-5b9b-4dbb-906b-df4504f8acb5"
+    CLIENT_SECRET = "8a5379e0-0256-445d-a201-69b5dde2845e-a8b5b1be-885a-4766-8cf4-bd8600edf311"
 
     # SETTINGS OF TICKETS AND USERS
 
