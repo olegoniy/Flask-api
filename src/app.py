@@ -52,6 +52,7 @@ from classes.crm import CrmTickets
 
 
 ht = HaloTickets()
+hc = HaloCustomer()
 ct = CrmTickets(db, Tickets)
 
 
@@ -90,10 +91,12 @@ def crm_delete_ticket(ticket_id):
 	return ct.delete_ticket(id=ticket_id)
 
 
-# routes for HaloPSA functions (don't work (problem with access))
+# Routes for HaloPSA tickets
 @app.route('/get-halo-tickets', methods=['GET'])
 def halo_get_tickets():
-	return ht.get_tickets()
+	page = request.args.get('page', default=1, type=int) - 1
+	limit = request.args.get('limit', default=10, type=int)
+	return ht.get_tickets(page, limit)
 
 
 @app.route('/get-halo-ticket/<ticket_id>', methods=['GET'])
@@ -119,12 +122,34 @@ def halo_delete_ticket(ticket_id):
 	data = request.get_json()
 	return ht.delete_ticket(ticket_id, data)
 
+# Routes for HaloPSA Users
 
-# route for communication of CRM and HaloPSA
-@app.route('/exportTickets', methods=['GET'])
-def export_tickets():
-	internal_tickets_list = ct.getTickets()
-	return ht.update_tickets(internal_tickets_list)
+@app.route('/get-halo-users', methods=['GET'])
+def halo_get_users():
+	page = request.args.get('page', default=1, type=int) - 1
+	limit = request.args.get('limit', default=10, type=int)
+	return hс.get_tickets(page, limit)
+
+
+@app.route('/get-halo-users/<user_id>', methods=['GET'])
+def halo_get_user(user_id):
+	return hс.get_user(user_id)
+
+
+@app.route('/set-halo-user', methods=['POST'])
+def halo_post_user():
+	data = request.get_json()
+	return hс.post_user(data)
+
+@app.route('/put-halo-user/<user_id>', methods=['PUT'])
+def halo_edit_user(user_id):
+	data = request.get_json()
+	return hс.put_user(user_id, data)
+
+
+@app.route('/delete-halo-user/<user_id>', methods=['DELETE'])
+def halo_delete_ticket(user_id):
+	return hс.delete_user(user_id)
 
 
 if __name__ == '__main__':
