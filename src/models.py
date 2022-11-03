@@ -3,6 +3,7 @@ from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.types import Float
 from sqlalchemy import ForeignKey
 
+
 class Tickets(db.Model):
 	__tablename__ = "tickets"
 	id = db.Column(db.Integer, primary_key=True)
@@ -635,12 +636,6 @@ class Client(db.Model):
 	xero_tenant_id =db.Column(db.String(50))
 
 
-
-
-
-
-
-
 class Viewers(db.Model):
 	__tablename__ = "viewers"
 	current_action_name = db.Column(db.String(50))
@@ -728,9 +723,6 @@ class Customers(db.Model):
 	useadlogin = db.Column(db.Integer)
 	viewallcleared = db.Column(TINYINT(1))
 	web_access_level = db.Column(db.Integer)
-
-
-
 	def __repr__(self):
 		return "<Customer {}>".format(self.id)
 
