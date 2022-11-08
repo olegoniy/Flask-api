@@ -1,13 +1,15 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from classes.halo import HaloTickets
+from classes.halo import HaloTickets,HaloCustomer
 import datetime
 from config import Config
+from flasgger import Swagger
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
+swagger = Swagger(app)
 
 
 class Tickets(db.Model):
@@ -59,6 +61,46 @@ ct = CrmTickets(db, Tickets)
 # routes to CRM functions (ready and work)
 @app.route('/get-crm-tickets', methods=['GET'])
 def crm_get_tickets():
+	"""Endpoint returning a list of tickets
+		---
+		parameters:
+			- name: page
+			  in: body
+			  type: integer
+			  required: false
+			  default: 1
+			- name: limit
+			  in: body
+			  type: integer
+			  required: false
+			  default: 10
+		definitions:
+			Tickets:
+				type: object
+				properties:
+				tickets:
+					type: array
+					items:
+						$ref: '#/definitions/Ticket'
+			Ticket:
+				type: object
+				properties:
+					id:
+						type: int
+					title:
+						type: string
+					info:
+						type: string
+					user_id:
+						type: int
+		responses:
+			200:
+				description: A list of tickets
+				schema:
+					$ref: '#/definitions/Tickets'
+				examples:
+					tickets: []
+		"""
 	page = request.args.get('page', default=1, type=int) - 1
 	limit = request.args.get('limit', default=10, type=int)
 	return ct.get_tickets(page, limit)
@@ -124,6 +166,7 @@ def halo_delete_ticket(ticket_id):
 
 # Routes for HaloPSA Users
 
+
 @app.route('/get-halo-users', methods=['GET'])
 def halo_get_users():
 	page = request.args.get('page', default=1, type=int) - 1
@@ -141,6 +184,7 @@ def halo_post_user():
 	data = request.get_json()
 	return hс.post_user(data)
 
+
 @app.route('/put-halo-user/<user_id>', methods=['PUT'])
 def halo_edit_user(user_id):
 	data = request.get_json()
@@ -148,7 +192,7 @@ def halo_edit_user(user_id):
 
 
 @app.route('/delete-halo-user/<user_id>', methods=['DELETE'])
-def halo_delete_ticket(user_id):
+def halo_delete_user(user_id):
 	return hс.delete_user(user_id)
 
 
