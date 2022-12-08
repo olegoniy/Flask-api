@@ -103,3 +103,17 @@ class CrmTickets:
 			self.db.session.commit()
 			return f"Ticket {id} was deleted"
 		return "Wrong id"
+
+	def update_or_create_ticket(self, data):
+
+		ticket = self.db.session.query(self.Tickets).filter(self.Tickets.id == data["id"]).first()
+		if ticket is None:
+			ticket = self.Tickets()
+
+		for i in range(len(data)):
+			value = data[i]
+			if value is not None:
+				key = self.Tickets.property_names[i]
+				setattr(self, key, value)
+
+		self.db.session.commit()

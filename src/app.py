@@ -196,6 +196,11 @@ def halo_delete_user(user_id):
 	return hс.delete_user(user_id)
 
 
+@app.route('/transfer-halo-crm-ticket/<ticket_id>', methods=['GET'])
+def transfer_halo_crm_ticket(ticket_id):
+	return ct.update_or_create_ticket(ht.get_ticket(ticket_id))
+
+
 if __name__ == '__main__':
 	app.run()
  
