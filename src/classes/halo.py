@@ -96,7 +96,6 @@ class HaloTickets:
 		return f"The ticket {ticket_id} was deleted"
 
 
-
 class HaloCustomer:
 
 	def __init__(self):

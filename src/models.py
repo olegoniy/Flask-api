@@ -265,6 +265,7 @@ class Priority(db.Model):
 	startofdaytime = db.Column(db.String(50))
 	workdaysoverride = db.Column(db.Integer)
 
+
 class tickettype(db.Model):
 	__tablename__ = "tickettype"
 	access_control = db.Column(db.String(200))
